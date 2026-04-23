@@ -1,0 +1,916 @@
+{
+  "v3": {
+    "spec": "A_tuned_v1 (top-4 penalized) + 黄金ETF fallback + MA50 gate + 15% vol target",
+    "config": {
+      "mom_w": 4,
+      "turn_w": 4,
+      "lambda": 1.5,
+      "mu": 0.3,
+      "top_n": 4,
+      "gate": "mkt_cum > 50w MA",
+      "fallback": "100% 黄金ETF when gate off",
+      "vol_target": 0.15,
+      "rebalance_w": 1,
+      "delay": 1,
+      "cost_bps": 5
+    },
+    "full": {
+      "n_weeks": 377,
+      "years": 7.25,
+      "ann_ret": 0.29212850077811847,
+      "vol": 0.14916838741645422,
+      "sharpe": 1.9583807657754089,
+      "sortino": 3.444687059737868,
+      "max_dd": -0.09770741210718015,
+      "max_dd_depth_pct": -9.770741210718015,
+      "dd_peak_date": "2021-09-10",
+      "dd_trough_date": "2022-07-15",
+      "dd_recovery_date": "2023-01-13",
+      "dd_duration_weeks": 70.0,
+      "calmar": 2.989829476372459,
+      "win_rate_weekly": 0.5596816976127321,
+      "win_rate_monthly": 0.6823529411764706,
+      "best_week": 0.10320788333295167,
+      "worst_week": -0.050621672811185264,
+      "best_month": 0.1937033711275047,
+      "worst_month": -0.0500191678827161,
+      "weekly_skew": 0.8499914525403554,
+      "weekly_kurt_excess": 3.157220635900096,
+      "var_95_weekly": -0.026156742100073772,
+      "cvar_95_weekly": -0.03697644606667979,
+      "roll_sh_12m_min": -0.7321467631867469,
+      "roll_sh_12m_max": 3.508378557951135,
+      "up_capture_vs_bench": 0.6305670294515318,
+      "down_capture_vs_bench": 0.21400748267614472
+    },
+    "is": {
+      "n_weeks": 258,
+      "years": 4.961538461538462,
+      "ann_ret": 0.26668147877018056,
+      "vol": 0.13826470559425602,
+      "sharpe": 1.9287747919759748,
+      "sortino": 3.074824542000093,
+      "max_dd": -0.09770741210718015,
+      "max_dd_depth_pct": -9.770741210718015,
+      "dd_peak_date": "2021-09-10",
+      "dd_trough_date": "2022-07-15",
+      "dd_recovery_date": "2023-01-13",
+      "dd_duration_weeks": 70.0,
+      "calmar": 2.72938841607681,
+      "win_rate_weekly": 0.562015503875969,
+      "win_rate_monthly": 0.7017543859649122,
+      "best_week": 0.10320788333295167,
+      "worst_week": -0.050621672811185264,
+      "best_month": 0.09658718363133212,
+      "worst_month": -0.03865059812063787,
+      "weekly_skew": 0.6281959360641374,
+      "weekly_kurt_excess": 3.4727163799463936,
+      "var_95_weekly": -0.026030285777344245,
+      "cvar_95_weekly": -0.03657914965885583,
+      "roll_sh_12m_min": -0.7321467631867469,
+      "roll_sh_12m_max": 3.508378557951135,
+      "up_capture_vs_bench": 0.6147083558110031,
+      "down_capture_vs_bench": 0.19786918139656706
+    },
+    "oos": {
+      "n_weeks": 119,
+      "years": 2.2884615384615383,
+      "ann_ret": 0.3490687726624948,
+      "vol": 0.17089217424180808,
+      "sharpe": 2.042625849961809,
+      "sortino": 4.256103531668012,
+      "max_dd": -0.07732455230808322,
+      "max_dd_depth_pct": -7.732455230808322,
+      "dd_peak_date": "2024-11-08",
+      "dd_trough_date": "2025-01-03",
+      "dd_recovery_date": "2025-02-21",
+      "dd_duration_weeks": 15.0,
+      "calmar": 4.514332928455953,
+      "win_rate_weekly": 0.5546218487394958,
+      "win_rate_monthly": 0.6428571428571429,
+      "best_week": 0.09939669947001578,
+      "worst_week": -0.04731852949311876,
+      "best_month": 0.1937033711275047,
+      "worst_month": -0.0500191678827161,
+      "weekly_skew": 1.0515069832281005,
+      "weekly_kurt_excess": 2.3956825280523684,
+      "var_95_weekly": -0.026109403709754484,
+      "cvar_95_weekly": -0.03783725495029836,
+      "roll_sh_12m_min": 1.0400638925792456,
+      "roll_sh_12m_max": 2.401996940733035,
+      "up_capture_vs_bench": 0.6592279894291846,
+      "down_capture_vs_bench": 0.24723417724667854
+    },
+    "per_year": [
+      {
+        "year": 2019,
+        "ret": 0.2834032172723915,
+        "vol": 0.09314470317728078,
+        "sh": 3.042612275364653,
+        "dd": -0.042957193672921945,
+        "cal": 6.597340120265692,
+        "win_rate": 0.47058823529411764,
+        "n": 51
+      },
+      {
+        "year": 2020,
+        "ret": 0.44578586961708866,
+        "vol": 0.17601632473999707,
+        "sh": 2.532639346240085,
+        "dd": -0.09246623636713225,
+        "cal": 4.821066446860881,
+        "win_rate": 0.6923076923076923,
+        "n": 52
+      },
+      {
+        "year": 2021,
+        "ret": 0.28336168945336593,
+        "vol": 0.1615422334904182,
+        "sh": 1.7541028332394164,
+        "dd": -0.07227760591404053,
+        "cal": 3.920463134741442,
+        "win_rate": 0.4727272727272727,
+        "n": 55
+      },
+      {
+        "year": 2022,
+        "ret": 0.07101828369867502,
+        "vol": 0.09573310434475422,
+        "sh": 0.7418362141785756,
+        "dd": -0.08275862068965523,
+        "cal": 0.8581375946923226,
+        "win_rate": 0.54,
+        "n": 50
+      },
+      {
+        "year": 2023,
+        "ret": 0.26982684936686274,
+        "vol": 0.14232527657823282,
+        "sh": 1.8958463025964705,
+        "dd": -0.05078620744003082,
+        "cal": 5.3129946685914415,
+        "win_rate": 0.64,
+        "n": 50
+      },
+      {
+        "year": 2024,
+        "ret": 0.4322070385276735,
+        "vol": 0.18281915568897733,
+        "sh": 2.364123370435916,
+        "dd": -0.04136789851075495,
+        "cal": 10.44788481134247,
+        "win_rate": 0.5686274509803921,
+        "n": 51
+      },
+      {
+        "year": 2025,
+        "ret": 0.32345997151562034,
+        "vol": 0.16550172770968555,
+        "sh": 1.9544205126548095,
+        "dd": -0.0625139069871179,
+        "cal": 5.17420822189653,
+        "win_rate": 0.5660377358490566,
+        "n": 53
+      },
+      {
+        "year": 2026,
+        "ret": 0.17798343021918228,
+        "vol": 0.15603573682195113,
+        "sh": 1.1406581200194874,
+        "dd": -0.0604333108068964,
+        "cal": 2.945121288950986,
+        "win_rate": 0.4666666666666667,
+        "n": 15
+      }
+    ],
+    "top_drawdowns": [
+      {
+        "peak_date": "2021-09-10",
+        "trough_date": "2022-07-15",
+        "recovery_date": "2023-01-13",
+        "depth_pct": -9.770741210718015,
+        "duration_weeks": 70
+      },
+      {
+        "peak_date": "2020-02-21",
+        "trough_date": "2020-03-20",
+        "recovery_date": "2020-06-12",
+        "depth_pct": -9.246623636713236,
+        "duration_weeks": 16
+      },
+      {
+        "peak_date": "2024-11-08",
+        "trough_date": "2025-01-03",
+        "recovery_date": "2025-02-21",
+        "depth_pct": -7.732455230808311,
+        "duration_weeks": 15
+      },
+      {
+        "peak_date": "2025-02-21",
+        "trough_date": "2025-05-30",
+        "recovery_date": "2025-07-11",
+        "depth_pct": -6.251390698711756,
+        "duration_weeks": 20
+      },
+      {
+        "peak_date": "2026-02-27",
+        "trough_date": "2026-04-03",
+        "recovery_date": "not yet",
+        "depth_pct": -6.043331080689662,
+        "duration_weeks": 7
+      }
+    ],
+    "gate_gold": {
+      "gate_on_weeks": 228,
+      "gate_on_pct": 0.6047745358090185,
+      "gate_off_weeks": 149,
+      "gold_dominant_weeks": 138,
+      "gold_dominant_pct": 0.3660477453580902,
+      "cash_weeks": 12
+    },
+    "top_holdings": [
+      {
+        "ts_code": "159934.SZ",
+        "etf_name": "黄金ETF",
+        "group": "周期资源",
+        "avg_weight": 0.353026999822788,
+        "weeks_held": 140,
+        "pct_weeks": 0.3713527851458886,
+        "dollar_time_yrs": 2.559445748715213
+      },
+      {
+        "ts_code": "512690.SH",
+        "etf_name": "酒ETF",
+        "group": "大消费",
+        "avg_weight": 0.026729125799571297,
+        "weeks_held": 55,
+        "pct_weeks": 0.14588859416445624,
+        "dollar_time_yrs": 0.1937861620468919
+      },
+      {
+        "ts_code": "515980.SH",
+        "etf_name": "AI_ETF",
+        "group": "科技成长",
+        "avg_weight": 0.02492253587073113,
+        "weeks_held": 55,
+        "pct_weeks": 0.14588859416445624,
+        "dollar_time_yrs": 0.1806883850628007
+      },
+      {
+        "ts_code": "512010.SH",
+        "etf_name": "医药ETF",
+        "group": "大消费",
+        "avg_weight": 0.024786614566279105,
+        "weeks_held": 48,
+        "pct_weeks": 0.1273209549071618,
+        "dollar_time_yrs": 0.17970295560552352
+      },
+      {
+        "ts_code": "515210.SH",
+        "etf_name": "钢铁ETF",
+        "group": "周期资源",
+        "avg_weight": 0.02240407120400277,
+        "weeks_held": 53,
+        "pct_weeks": 0.14058355437665782,
+        "dollar_time_yrs": 0.16242951622902008
+      },
+      {
+        "ts_code": "159890.SZ",
+        "etf_name": "云计算ETF",
+        "group": "科技成长",
+        "avg_weight": 0.022378434807603473,
+        "weeks_held": 51,
+        "pct_weeks": 0.13527851458885942,
+        "dollar_time_yrs": 0.16224365235512517
+      },
+      {
+        "ts_code": "512200.SH",
+        "etf_name": "房地产ETF",
+        "group": "地产链",
+        "avg_weight": 0.01931805235327527,
+        "weeks_held": 35,
+        "pct_weeks": 0.09283819628647215,
+        "dollar_time_yrs": 0.1400558795612457
+      },
+      {
+        "ts_code": "515880.SH",
+        "etf_name": "通信ETF",
+        "group": "科技成长",
+        "avg_weight": 0.019221358587771475,
+        "weeks_held": 39,
+        "pct_weeks": 0.10344827586206896,
+        "dollar_time_yrs": 0.13935484976134319
+      },
+      {
+        "ts_code": "512480.SH",
+        "etf_name": "半导体ETF",
+        "group": "科技成长",
+        "avg_weight": 0.0173532077436359,
+        "weeks_held": 30,
+        "pct_weeks": 0.07957559681697612,
+        "dollar_time_yrs": 0.12581075614136025
+      },
+      {
+        "ts_code": "159980.SZ",
+        "etf_name": "有色ETF",
+        "group": "周期资源",
+        "avg_weight": 0.01730815183698452,
+        "weeks_held": 42,
+        "pct_weeks": 0.11140583554376658,
+        "dollar_time_yrs": 0.12548410081813777
+      },
+      {
+        "ts_code": "512660.SH",
+        "etf_name": "军工ETF",
+        "group": "高端制造",
+        "avg_weight": 0.016094540435272257,
+        "weeks_held": 30,
+        "pct_weeks": 0.07957559681697612,
+        "dollar_time_yrs": 0.11668541815572385
+      },
+      {
+        "ts_code": "515080.SH",
+        "etf_name": "红利ETF",
+        "group": "红利",
+        "avg_weight": 0.015556735098545025,
+        "weeks_held": 37,
+        "pct_weeks": 0.09814323607427056,
+        "dollar_time_yrs": 0.11278632946445143
+      },
+      {
+        "ts_code": "515220.SH",
+        "etf_name": "煤炭ETF",
+        "group": "周期资源",
+        "avg_weight": 0.014909600493080315,
+        "weeks_held": 33,
+        "pct_weeks": 0.08753315649867374,
+        "dollar_time_yrs": 0.10809460357483228
+      },
+      {
+        "ts_code": "159713.SZ",
+        "etf_name": "稀土ETF",
+        "group": "周期资源",
+        "avg_weight": 0.013896226480611819,
+        "weeks_held": 40,
+        "pct_weeks": 0.10610079575596817,
+        "dollar_time_yrs": 0.10074764198443568
+      },
+      {
+        "ts_code": "515030.SH",
+        "etf_name": "新能源车ETF",
+        "group": "新能源",
+        "avg_weight": 0.013144210909720615,
+        "weeks_held": 33,
+        "pct_weeks": 0.08753315649867374,
+        "dollar_time_yrs": 0.09529552909547445
+      },
+      {
+        "ts_code": "159869.SZ",
+        "etf_name": "游戏ETF",
+        "group": "科技成长",
+        "avg_weight": 0.012573686639675877,
+        "weeks_held": 24,
+        "pct_weeks": 0.0636604774535809,
+        "dollar_time_yrs": 0.09115922813765011
+      },
+      {
+        "ts_code": "159857.SZ",
+        "etf_name": "光伏ETF",
+        "group": "新能源",
+        "avg_weight": 0.01218086368208506,
+        "weeks_held": 28,
+        "pct_weeks": 0.07427055702917772,
+        "dollar_time_yrs": 0.08831126169511669
+      },
+      {
+        "ts_code": "515230.SH",
+        "etf_name": "软件ETF",
+        "group": "科技成长",
+        "avg_weight": 0.012117211335802987,
+        "weeks_held": 27,
+        "pct_weeks": 0.07161803713527852,
+        "dollar_time_yrs": 0.08784978218457165
+      },
+      {
+        "ts_code": "159779.SZ",
+        "etf_name": "消费电子ETF",
+        "group": "科技成长",
+        "avg_weight": 0.011051092568750049,
+        "weeks_held": 30,
+        "pct_weeks": 0.07957559681697612,
+        "dollar_time_yrs": 0.08012042112343785
+      },
+      {
+        "ts_code": "159867.SZ",
+        "etf_name": "畜牧ETF",
+        "group": "农业",
+        "avg_weight": 0.009654756811913379,
+        "weeks_held": 26,
+        "pct_weeks": 0.06896551724137931,
+        "dollar_time_yrs": 0.069996986886372
+      },
+      {
+        "ts_code": "515170.SH",
+        "etf_name": "食品ETF",
+        "group": "大消费",
+        "avg_weight": 0.009345354904982364,
+        "weeks_held": 23,
+        "pct_weeks": 0.0610079575596817,
+        "dollar_time_yrs": 0.06775382306112213
+      },
+      {
+        "ts_code": "512800.SH",
+        "etf_name": "银行ETF",
+        "group": "大金融",
+        "avg_weight": 0.008138861393120301,
+        "weeks_held": 14,
+        "pct_weeks": 0.03713527851458886,
+        "dollar_time_yrs": 0.05900674510012219
+      },
+      {
+        "ts_code": "561360.SH",
+        "etf_name": "石油ETF",
+        "group": "周期资源",
+        "avg_weight": 0.0074355046781271715,
+        "weeks_held": 24,
+        "pct_weeks": 0.0636604774535809,
+        "dollar_time_yrs": 0.05390740891642199
+      },
+      {
+        "ts_code": "159992.SZ",
+        "etf_name": "创新药ETF",
+        "group": "大消费",
+        "avg_weight": 0.0069404894342281285,
+        "weeks_held": 17,
+        "pct_weeks": 0.04509283819628647,
+        "dollar_time_yrs": 0.05031854839815393
+      },
+      {
+        "ts_code": "516750.SH",
+        "etf_name": "建材ETF",
+        "group": "地产链",
+        "avg_weight": 0.006829419120421354,
+        "weeks_held": 19,
+        "pct_weeks": 0.050397877984084884,
+        "dollar_time_yrs": 0.04951328862305482
+      }
+    ],
+    "turnover_annual_oneway": 7.942406693422503
+  },
+  "v7": {
+    "spec": "Ensemble 0.5*A_tuned_v1 + 0.5*G_top3 + 黄金ETF fallback + MA50 gate + 15% vol target",
+    "config": {
+      "spec_A": "(mom_4w,turn_4w,λ=1.5,μ=0.3,top_n=4)",
+      "spec_G": "top-3 groups → top-1 ETF per group (by group 4w mom)",
+      "weight": "0.5/0.5 equal blend",
+      "gate": "mkt_cum > 50w MA",
+      "fallback": "100% 黄金ETF when gate off",
+      "vol_target": 0.15,
+      "rebalance_w": 1,
+      "delay": 1,
+      "cost_bps": 5
+    },
+    "full": {
+      "n_weeks": 377,
+      "years": 7.25,
+      "ann_ret": 0.2856627324787224,
+      "vol": 0.14945784048625654,
+      "sharpe": 1.911326508862482,
+      "sortino": 3.3084451741345515,
+      "max_dd": -0.08886689571606177,
+      "max_dd_depth_pct": -8.886689571606176,
+      "dd_peak_date": "2020-02-21",
+      "dd_trough_date": "2020-03-20",
+      "dd_recovery_date": "2020-06-05",
+      "dd_duration_weeks": 15.0,
+      "calmar": 3.2145010825115596,
+      "win_rate_weekly": 0.6047745358090185,
+      "win_rate_monthly": 0.6941176470588235,
+      "best_week": 0.10559868822925166,
+      "worst_week": -0.054044032491248575,
+      "best_month": 0.17561406703245952,
+      "worst_month": -0.046759307950241524,
+      "weekly_skew": 0.7597321324022924,
+      "weekly_kurt_excess": 3.0388287556083897,
+      "var_95_weekly": -0.025983893303925292,
+      "cvar_95_weekly": -0.03777509917625504,
+      "roll_sh_12m_min": -0.267622518944064,
+      "roll_sh_12m_max": 2.9016822887208016,
+      "up_capture_vs_bench": 0.6308643713161085,
+      "down_capture_vs_bench": 0.22584084262870618
+    },
+    "is": {
+      "n_weeks": 258,
+      "years": 4.961538461538462,
+      "ann_ret": 0.2606524471815366,
+      "vol": 0.14047424405769485,
+      "sharpe": 1.8555177066799715,
+      "sortino": 2.978567298241885,
+      "max_dd": -0.08886689571606177,
+      "max_dd_depth_pct": -8.886689571606176,
+      "dd_peak_date": "2020-02-21",
+      "dd_trough_date": "2020-03-20",
+      "dd_recovery_date": "2020-06-05",
+      "dd_duration_weeks": 15.0,
+      "calmar": 2.9330657392866075,
+      "win_rate_weekly": 0.6085271317829457,
+      "win_rate_monthly": 0.7017543859649122,
+      "best_week": 0.10559868822925166,
+      "worst_week": -0.054044032491248575,
+      "best_month": 0.10002474587547838,
+      "worst_month": -0.04269327675474488,
+      "weekly_skew": 0.6592526688835306,
+      "weekly_kurt_excess": 3.615122499040723,
+      "var_95_weekly": -0.0259209205428245,
+      "cvar_95_weekly": -0.037213466130550314,
+      "roll_sh_12m_min": -0.267622518944064,
+      "roll_sh_12m_max": 2.9016822887208016,
+      "up_capture_vs_bench": 0.6174545828422686,
+      "down_capture_vs_bench": 0.2118095159947356
+    },
+    "oos": {
+      "n_weeks": 119,
+      "years": 2.2884615384615383,
+      "ann_ret": 0.34160392327036937,
+      "vol": 0.16775270920120494,
+      "sharpe": 2.036354136377284,
+      "sortino": 4.016431193032492,
+      "max_dd": -0.07590363129403477,
+      "max_dd_depth_pct": -7.590363129403476,
+      "dd_peak_date": "2024-11-08",
+      "dd_trough_date": "2025-01-27",
+      "dd_recovery_date": "2025-02-21",
+      "dd_duration_weeks": 15.0,
+      "calmar": 4.500495133718535,
+      "win_rate_weekly": 0.5966386554621849,
+      "win_rate_monthly": 0.6785714285714286,
+      "best_week": 0.09947115942186716,
+      "worst_week": -0.04929380947089483,
+      "best_month": 0.17561406703245952,
+      "worst_month": -0.046759307950241524,
+      "weekly_skew": 0.8471944101445845,
+      "weekly_kurt_excess": 2.1235838595737273,
+      "var_95_weekly": -0.02630710225275418,
+      "cvar_95_weekly": -0.03899197077528193,
+      "roll_sh_12m_min": 0.9661593731058751,
+      "roll_sh_12m_max": 2.6175473956944115,
+      "up_capture_vs_bench": 0.6550995261259851,
+      "down_capture_vs_bench": 0.25472954636584055
+    },
+    "per_year": [
+      {
+        "year": 2019,
+        "ret": 0.2578549920485633,
+        "vol": 0.11315502778044481,
+        "sh": 2.278776269216075,
+        "dd": -0.05590224766267882,
+        "cal": 4.612605088877512,
+        "win_rate": 0.5294117647058824,
+        "n": 51
+      },
+      {
+        "year": 2020,
+        "ret": 0.4487745036532913,
+        "vol": 0.1750055162702351,
+        "sh": 2.5643449030504573,
+        "dd": -0.08886689571606177,
+        "cal": 5.0499626439880245,
+        "win_rate": 0.7115384615384616,
+        "n": 52
+      },
+      {
+        "year": 2021,
+        "ret": 0.300395362538203,
+        "vol": 0.16237367160181135,
+        "sh": 1.8500250661009991,
+        "dd": -0.061870816993742084,
+        "cal": 4.855202777887779,
+        "win_rate": 0.6,
+        "n": 55
+      },
+      {
+        "year": 2022,
+        "ret": 0.07789640012073251,
+        "vol": 0.09612736049507793,
+        "sh": 0.8103457716881874,
+        "dd": -0.08275862068965545,
+        "cal": 0.9412481681255147,
+        "win_rate": 0.56,
+        "n": 50
+      },
+      {
+        "year": 2023,
+        "ret": 0.23579981322724386,
+        "vol": 0.1388509698446628,
+        "sh": 1.6982222989946771,
+        "dd": -0.04960533329162142,
+        "cal": 4.753517365582776,
+        "win_rate": 0.64,
+        "n": 50
+      },
+      {
+        "year": 2024,
+        "ret": 0.38495746553087695,
+        "vol": 0.18239061495377762,
+        "sh": 2.110621018677057,
+        "dd": -0.0492938094708949,
+        "cal": 7.809448481724094,
+        "win_rate": 0.6078431372549019,
+        "n": 51
+      },
+      {
+        "year": 2025,
+        "ret": 0.35924748748922775,
+        "vol": 0.15645694921374267,
+        "sh": 2.2961427363539095,
+        "dd": -0.057464504485957635,
+        "cal": 6.25164161255433,
+        "win_rate": 0.6037735849056604,
+        "n": 53
+      },
+      {
+        "year": 2026,
+        "ret": 0.14977858869023652,
+        "vol": 0.1639037114454153,
+        "sh": 0.9138206046061206,
+        "dd": -0.06461319218052397,
+        "cal": 2.3180806215512058,
+        "win_rate": 0.5333333333333333,
+        "n": 15
+      }
+    ],
+    "top_drawdowns": [
+      {
+        "peak_date": "2020-02-21",
+        "trough_date": "2020-03-20",
+        "recovery_date": "2020-06-05",
+        "depth_pct": -8.886689571606176,
+        "duration_weeks": 15
+      },
+      {
+        "peak_date": "2022-04-22",
+        "trough_date": "2022-07-15",
+        "recovery_date": "2022-11-18",
+        "depth_pct": -8.275862068965544,
+        "duration_weeks": 30
+      },
+      {
+        "peak_date": "2024-11-08",
+        "trough_date": "2025-01-27",
+        "recovery_date": "2025-02-21",
+        "depth_pct": -7.5903631294034435,
+        "duration_weeks": 15
+      },
+      {
+        "peak_date": "2026-03-06",
+        "trough_date": "2026-04-03",
+        "recovery_date": "not yet",
+        "depth_pct": -6.461319218052386,
+        "duration_weeks": 6
+      },
+      {
+        "peak_date": "2021-01-08",
+        "trough_date": "2021-04-16",
+        "recovery_date": "2021-06-04",
+        "depth_pct": -6.187081699374231,
+        "duration_weeks": 21
+      }
+    ],
+    "gate_gold": {
+      "gate_on_weeks": 228,
+      "gate_on_pct": 0.6047745358090185,
+      "gate_off_weeks": 149,
+      "gold_dominant_weeks": 138,
+      "gold_dominant_pct": 0.3660477453580902,
+      "cash_weeks": 12
+    },
+    "top_holdings": [
+      {
+        "ts_code": "159934.SZ",
+        "etf_name": "黄金ETF",
+        "group": "周期资源",
+        "avg_weight": 0.3656721873736657,
+        "weeks_held": 165,
+        "pct_weeks": 0.4376657824933687,
+        "dollar_time_yrs": 2.6511233584590763
+      },
+      {
+        "ts_code": "512660.SH",
+        "etf_name": "军工ETF",
+        "group": "高端制造",
+        "avg_weight": 0.030665760627563238,
+        "weeks_held": 79,
+        "pct_weeks": 0.20954907161803712,
+        "dollar_time_yrs": 0.22232676454983347
+      },
+      {
+        "ts_code": "512480.SH",
+        "etf_name": "半导体ETF",
+        "group": "科技成长",
+        "avg_weight": 0.024992386629893774,
+        "weeks_held": 45,
+        "pct_weeks": 0.11936339522546419,
+        "dollar_time_yrs": 0.1811948030667299
+      },
+      {
+        "ts_code": "515080.SH",
+        "etf_name": "红利ETF",
+        "group": "红利",
+        "avg_weight": 0.024634449201901,
+        "weeks_held": 68,
+        "pct_weeks": 0.18037135278514588,
+        "dollar_time_yrs": 0.17859975671378223
+      },
+      {
+        "ts_code": "512200.SH",
+        "etf_name": "房地产ETF",
+        "group": "地产链",
+        "avg_weight": 0.024002811673980735,
+        "weeks_held": 57,
+        "pct_weeks": 0.15119363395225463,
+        "dollar_time_yrs": 0.17402038463636033
+      },
+      {
+        "ts_code": "512690.SH",
+        "etf_name": "酒ETF",
+        "group": "大消费",
+        "avg_weight": 0.023308738351850263,
+        "weeks_held": 61,
+        "pct_weeks": 0.16180371352785147,
+        "dollar_time_yrs": 0.16898835305091442
+      },
+      {
+        "ts_code": "512010.SH",
+        "etf_name": "医药ETF",
+        "group": "大消费",
+        "avg_weight": 0.020040945328525774,
+        "weeks_held": 52,
+        "pct_weeks": 0.13793103448275862,
+        "dollar_time_yrs": 0.14529685363181186
+      },
+      {
+        "ts_code": "515030.SH",
+        "etf_name": "新能源车ETF",
+        "group": "新能源",
+        "avg_weight": 0.01871583281557109,
+        "weeks_held": 56,
+        "pct_weeks": 0.14854111405835543,
+        "dollar_time_yrs": 0.1356897879128904
+      },
+      {
+        "ts_code": "515880.SH",
+        "etf_name": "通信ETF",
+        "group": "科技成长",
+        "avg_weight": 0.016450755953734787,
+        "weeks_held": 48,
+        "pct_weeks": 0.1273209549071618,
+        "dollar_time_yrs": 0.1192679806645772
+      },
+      {
+        "ts_code": "515210.SH",
+        "etf_name": "钢铁ETF",
+        "group": "周期资源",
+        "avg_weight": 0.015688829175177502,
+        "weeks_held": 54,
+        "pct_weeks": 0.14323607427055704,
+        "dollar_time_yrs": 0.1137440115200369
+      },
+      {
+        "ts_code": "515220.SH",
+        "etf_name": "煤炭ETF",
+        "group": "周期资源",
+        "avg_weight": 0.014376407371802673,
+        "weeks_held": 38,
+        "pct_weeks": 0.10079575596816977,
+        "dollar_time_yrs": 0.10422895344556937
+      },
+      {
+        "ts_code": "159867.SZ",
+        "etf_name": "畜牧ETF",
+        "group": "农业",
+        "avg_weight": 0.013774754508440186,
+        "weeks_held": 32,
+        "pct_weeks": 0.08488063660477453,
+        "dollar_time_yrs": 0.09986697018619134
+      },
+      {
+        "ts_code": "515980.SH",
+        "etf_name": "AI_ETF",
+        "group": "科技成长",
+        "avg_weight": 0.013018106946800204,
+        "weeks_held": 55,
+        "pct_weeks": 0.14588859416445624,
+        "dollar_time_yrs": 0.09438127536430148
+      },
+      {
+        "ts_code": "159857.SZ",
+        "etf_name": "光伏ETF",
+        "group": "新能源",
+        "avg_weight": 0.013015615215414052,
+        "weeks_held": 30,
+        "pct_weeks": 0.07957559681697612,
+        "dollar_time_yrs": 0.09436321031175189
+      },
+      {
+        "ts_code": "159869.SZ",
+        "etf_name": "游戏ETF",
+        "group": "科技成长",
+        "avg_weight": 0.012924523442100978,
+        "weeks_held": 27,
+        "pct_weeks": 0.07161803713527852,
+        "dollar_time_yrs": 0.0937027949552321
+      },
+      {
+        "ts_code": "159890.SZ",
+        "etf_name": "云计算ETF",
+        "group": "科技成长",
+        "avg_weight": 0.01201921868302443,
+        "weeks_held": 51,
+        "pct_weeks": 0.13527851458885942,
+        "dollar_time_yrs": 0.08713933545192712
+      },
+      {
+        "ts_code": "159980.SZ",
+        "etf_name": "有色ETF",
+        "group": "周期资源",
+        "avg_weight": 0.011693067194612234,
+        "weeks_held": 43,
+        "pct_weeks": 0.11405835543766578,
+        "dollar_time_yrs": 0.0847747371609387
+      },
+      {
+        "ts_code": "562500.SH",
+        "etf_name": "机器人ETF",
+        "group": "高端制造",
+        "avg_weight": 0.01134041791078927,
+        "weeks_held": 31,
+        "pct_weeks": 0.08222811671087533,
+        "dollar_time_yrs": 0.08221802985322221
+      },
+      {
+        "ts_code": "159713.SZ",
+        "etf_name": "稀土ETF",
+        "group": "周期资源",
+        "avg_weight": 0.009935380294722752,
+        "weeks_held": 41,
+        "pct_weeks": 0.10875331564986737,
+        "dollar_time_yrs": 0.07203150713673995
+      },
+      {
+        "ts_code": "515230.SH",
+        "etf_name": "软件ETF",
+        "group": "科技成长",
+        "avg_weight": 0.00932094421959107,
+        "weeks_held": 28,
+        "pct_weeks": 0.07427055702917772,
+        "dollar_time_yrs": 0.06757684559203526
+      },
+      {
+        "ts_code": "512800.SH",
+        "etf_name": "银行ETF",
+        "group": "大金融",
+        "avg_weight": 0.008278608406974652,
+        "weeks_held": 22,
+        "pct_weeks": 0.058355437665782495,
+        "dollar_time_yrs": 0.06001991095056623
+      },
+      {
+        "ts_code": "512880.SH",
+        "etf_name": "证券ETF",
+        "group": "大金融",
+        "avg_weight": 0.008147962651798632,
+        "weeks_held": 23,
+        "pct_weeks": 0.0610079575596817,
+        "dollar_time_yrs": 0.059072729225540084
+      },
+      {
+        "ts_code": "159992.SZ",
+        "etf_name": "创新药ETF",
+        "group": "大消费",
+        "avg_weight": 0.00683842336561119,
+        "weeks_held": 23,
+        "pct_weeks": 0.0610079575596817,
+        "dollar_time_yrs": 0.04957856940068113
+      },
+      {
+        "ts_code": "159779.SZ",
+        "etf_name": "消费电子ETF",
+        "group": "科技成长",
+        "avg_weight": 0.006458504506733823,
+        "weeks_held": 30,
+        "pct_weeks": 0.07957559681697612,
+        "dollar_time_yrs": 0.04682415767382021
+      },
+      {
+        "ts_code": "516750.SH",
+        "etf_name": "建材ETF",
+        "group": "地产链",
+        "avg_weight": 0.006440656714745248,
+        "weeks_held": 23,
+        "pct_weeks": 0.0610079575596817,
+        "dollar_time_yrs": 0.04669476118190304
+      }
+    ],
+    "turnover_annual_oneway": 9.059284911885463
+  }
+}

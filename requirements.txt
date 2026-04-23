@@ -1,0 +1,5 @@
+pandas>=2.0
+numpy>=1.24
+tushare>=1.2.85
+pyarrow>=12.0
+scipy>=1.10
