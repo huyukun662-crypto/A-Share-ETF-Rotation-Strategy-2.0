@@ -21,8 +21,11 @@
 > 这是一个面向 **A 股全市场 34 只主题行业 ETF** 的**低频、规则化、可复现**的周度板块轮动量化项目（**V7_gold** 版本）。
 > 策略基于 **动量 × 拥挤惩罚 × 组轮动 Ensemble**，叠加 **50 周 MA 熊市滤波** 与 **黄金 ETF 避险 fallback**，并用 **15% 年化波动目标** 做杠杆约束。严格限定在 IS（2019-2023）上选参，独立在 OOS（2024-2026）上评估。
 
-> **样本外亮点（OOS: 2024–2026）**：Sharpe **2.04** · 年化 **34.91%** · 最大回撤 **-7.73%** · Calmar **4.51**。
-> **全样本（Full: 2019-01 → 2026-04, 377 周）**：Sharpe **1.91** · 年化 **28.57%** · 最大回撤 **-8.89%** · Calmar **3.21**。
+![V7_gold NAV vs CSI 300 · Excess NAV · Drawdown (Full 2019-2026)](figures/nav_vs_benchmark.png)
+
+> **全样本（Full: 2019-01-04 → 2026-04-22, 377 周）**：Sharpe **1.92** · 年化 **28.8%** · 最大回撤 **-8.89%** · Calmar **3.21**。
+> **样本外（OOS: 2024–2026）**：Sharpe **2.04** · 年化 **34.16%** · 最大回撤 **-7.59%** · Calmar **4.50**。
+> **vs 沪深300 Benchmark**：超额年化 **+18.2%** · 超额 Sharpe **1.54** · 策略 MaxDD **-8.89%** vs 沪深300 **-45.05%**。
 
 ### 1. 项目概览
 
@@ -76,14 +79,34 @@ w_raw[i,t] = 0.5 · w_A[i,t] + 0.5 · w_G[i,t]     # 每周最多 7 只 ETF
 
 > **工程纪律声明**：参数仅在 **IS 2019–2023** 上选择，OOS 2024–2026 **严格只读**；所有指标扣除单边 5bps 滑点，周度调仓。
 
+![V7_gold NAV vs CSI 300 · Excess NAV · Drawdown (Full 2019-2026)](figures/nav_vs_benchmark.png)
+
+**核心指标（Full / IS / OOS）：**
+
 | 核心指标 | IS（2019–2023） | **OOS（2024–2026）** | **全样本（2019–2026.4）** |
 | --- | ---: | ---: | ---: |
-| **年化收益** | 26.70% | **34.91%** | **28.57%** |
-| **Sharpe 比率** | 1.93 | **2.04** | **1.91** |
-| **Sortino 比率** | 2.85 | 4.26 | 3.31 |
-| **Calmar 比率** | 2.73 | 4.51 | 3.21 |
-| **最大回撤** | -8.89% | -7.73% | **-8.89%** |
-| **周胜率** | 60.9% | 55.5% | 60.5% |
+| **年化收益** | 26.07% | **34.16%** | **28.57%** |
+| **Sharpe 比率** | 1.86 | **2.04** | **1.92** |
+| **Sortino 比率** | 2.98 | 4.02 | 3.31 |
+| **Calmar 比率** | 2.93 | 4.50 | 3.21 |
+| **最大回撤** | -8.89% | -7.59% | **-8.89%** |
+| **周胜率** | 60.9% | 59.7% | 60.5% |
+
+**vs 沪深 300 基准对比（Full 2019-2026）：**
+
+| | V7_gold | 沪深 300 | 超额（策略 − 基准） |
+| --- | ---: | ---: | ---: |
+| **年化收益** | **+28.8%** | +0.7% | **+18.2%** |
+| **Sharpe** | **1.92** | 0.37 | **1.54** |
+| **最大回撤** | **-8.89%** | -45.05% | — |
+| **2019→2026 累计净值** | **5.9×** | 1.05× | — |
+
+**分年表现：**
+
+| 年份 | 2019 | 2020 | 2021 | 2022 | 2023 | 2024 | 2025 | 2026 YTD |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
+| 年化收益 | +25.8% | +44.9% | +30.0% | +7.8% | +23.6% | +38.5% | +35.9% | +15.0% |
+| Sharpe | 2.28 | 2.56 | 1.85 | 0.81 | 1.70 | 2.11 | 2.30 | 0.91 |
 
 > 9 年里 **8 年 Sharpe ≥ 0.8**，唯一弱年是 2022（熊市全年基本持黄金 +7.8%）。完整指标表与交易流水见 `results/` 目录。
 
@@ -226,8 +249,11 @@ Current language: English | [切换到中文](#zh)
   <a href="#11-references--sources">References</a>
 </p>
 
-> **OOS Highlights (2024–2026)**: Sharpe **2.04** · Annualized **34.91%** · Max Drawdown **-7.73%** · Calmar **4.51**.
-> **Full sample (2019-01 → 2026-04, 377 weeks)**: Sharpe **1.91** · Annualized **28.57%** · Max Drawdown **-8.89%** · Calmar **3.21**.
+![V7_gold NAV vs CSI 300 · Excess NAV · Drawdown (Full 2019-2026)](figures/nav_vs_benchmark.png)
+
+> **Full sample (2019-01-04 → 2026-04-22, 377 weeks)**: Sharpe **1.92** · Annualized **28.8%** · Max Drawdown **-8.89%** · Calmar **3.21**.
+> **OOS (2024–2026)**: Sharpe **2.04** · Annualized **34.16%** · Max Drawdown **-7.59%** · Calmar **4.50**.
+> **vs CSI 300 benchmark**: excess annualized **+18.2%** · excess Sharpe **1.54** · strategy MaxDD **-8.89%** vs CSI 300 **-45.05%**.
 
 ### 1. Overview
 
@@ -281,14 +307,34 @@ w_raw[i,t] = 0.5 · w_A[i,t] + 0.5 · w_G[i,t]   # at most 7 ETFs/week
 
 > **Discipline**: parameters are selected ONLY on IS 2019–2023; OOS 2024–2026 is strictly read-only. All metrics include 5bps one-way slippage, weekly rebalance.
 
+![V7_gold NAV vs CSI 300 · Excess NAV · Drawdown (Full 2019-2026)](figures/nav_vs_benchmark.png)
+
+**Core metrics (Full / IS / OOS):**
+
 | Metric | IS (2019–2023) | **OOS (2024–2026)** | **Full (2019–2026.4)** |
 | --- | ---: | ---: | ---: |
-| **Annual Return** | 26.70% | **34.91%** | **28.57%** |
-| **Sharpe Ratio** | 1.93 | **2.04** | **1.91** |
-| **Sortino Ratio** | 2.85 | 4.26 | 3.31 |
-| **Calmar Ratio** | 2.73 | 4.51 | 3.21 |
-| **Max Drawdown** | -8.89% | -7.73% | **-8.89%** |
-| **Weekly Hit Rate** | 60.9% | 55.5% | 60.5% |
+| **Annual Return** | 26.07% | **34.16%** | **28.57%** |
+| **Sharpe Ratio** | 1.86 | **2.04** | **1.92** |
+| **Sortino Ratio** | 2.98 | 4.02 | 3.31 |
+| **Calmar Ratio** | 2.93 | 4.50 | 3.21 |
+| **Max Drawdown** | -8.89% | -7.59% | **-8.89%** |
+| **Weekly Hit Rate** | 60.9% | 59.7% | 60.5% |
+
+**vs CSI 300 benchmark (Full 2019-2026):**
+
+| | V7_gold | CSI 300 | Excess (Strategy − BM) |
+| --- | ---: | ---: | ---: |
+| **Annual Return** | **+28.8%** | +0.7% | **+18.2%** |
+| **Sharpe** | **1.92** | 0.37 | **1.54** |
+| **Max Drawdown** | **-8.89%** | -45.05% | — |
+| **2019→2026 cumulative NAV** | **5.9×** | 1.05× | — |
+
+**Per-year performance:**
+
+| Year | 2019 | 2020 | 2021 | 2022 | 2023 | 2024 | 2025 | 2026 YTD |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
+| Annual Return | +25.8% | +44.9% | +30.0% | +7.8% | +23.6% | +38.5% | +35.9% | +15.0% |
+| Sharpe | 2.28 | 2.56 | 1.85 | 0.81 | 1.70 | 2.11 | 2.30 | 0.91 |
 
 > Across 9 years, **8 years have Sharpe ≥ 0.8**; the only weak year is 2022 (mostly holding gold, +7.8%). See `results/` for full metric tables and trade logs.
 
