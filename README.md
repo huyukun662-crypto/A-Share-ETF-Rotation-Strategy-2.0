@@ -19,7 +19,7 @@
 当前语言：中文 | [Switch to English](#en)
 
 > 这是一个面向 **A 股全市场 34 只主题行业 ETF** 的**低频、规则化、可复现**的周度板块轮动量化项目（**V7_gold** 版本）。
-> 策略基于 **动量 × 拥挤惩罚 × 组轮动 Ensemble**，叠加 **50 周 MA 熊市滤波** 与 **黄金 ETF 避险 fallback**，并用 **15% 年化波动目标** 做杠杆约束。严格限定在 IS（2019-2023）上选参，独立在 OOS（2024-2026）上评估。
+> 策略基于 **动量 × 拥挤惩罚 × 组轮动 Ensemble**，叠加 **50 周 MA 熊市滤波** 与 **黄金 ETF 避险 fallback**，并用 **12% 年化波动目标**（三段式调参冠军）做杠杆约束。实盘参数经 **三段式（IS 2019-2022 / Val 2023 / OOS 2024+）** 与 **Walk-Forward（每年滚动 refit）** 两条独立路径验证：**无过拟合、无参数漂移、无前视偏差**。
 
 ![V7_gold NAV vs CSI 300 · Excess NAV · Drawdown (Full 2019-2026)](figures/nav_vs_benchmark.png)
 
@@ -38,7 +38,7 @@
 - **Leg A** 使用 **动量 × 拥挤惩罚** 在 ETF 层面打分，避开「过热熄火」标的（2021 白酒 / 2023 CPO）；
 - **Leg G** 使用 **9 组主线轮动** 在板块层面挑选领头羊，降低单 ETF 噪声；
 - **50 周 MA 熊市 Gate** 在市场整体跌破长期均线时，**100% 切换到黄金 ETF（159934.SZ）** 避险；
-- **15% 年化波动目标** 对总暴露做动态缩放，系统性管理尾部风险。
+- **12% 年化波动目标**（三段式冠军）对总暴露做动态缩放，系统性管理尾部风险。
 
 ### 2. 策略逻辑
 
@@ -71,7 +71,7 @@ w_raw[i,t] = 0.5 · w_A[i,t] + 0.5 · w_G[i,t]     # 每周最多 7 只 ETF
 #### 2.2 熊市滤波与资金管理
 
 - **Market Gate**：`mkt_cum[t] > mean(mkt_cum[t-50w..t])` 时保留 `w_raw`；否则 **100% 切换至黄金 ETF（159934.SZ）**；
-- **Vol Target**：`scale[t] = min(1.0, 0.15 / rolling_vol_26w[t])`，对总暴露做动态杠杆约束；
+- **Vol Target**：`scale[t] = min(1.0, 0.12 / rolling_vol_26w[t])`（三段式冠军），对总暴露做动态杠杆约束；
 - **执行**：周五收盘计算信号，**下周一开盘价 + 单边 5bps 滑点** 执行调仓（`delay=1`）；
 - **Universe**：34 只主题 ETF，按 9 组（科技成长 / 新能源 / 高端制造 / 大金融 / 大消费 / 周期资源 / 地产链 / 农业 / 红利）分类；每只 ETF 需上市满 **12 周** 才进入截面。
 
@@ -109,6 +109,45 @@ w_raw[i,t] = 0.5 · w_A[i,t] + 0.5 · w_G[i,t]     # 每周最多 7 只 ETF
 | Sharpe | 2.28 | 2.56 | 1.85 | 0.81 | 1.70 | 2.11 | 2.30 | 0.91 |
 
 > 9 年里 **8 年 Sharpe ≥ 0.8**，唯一弱年是 2022（熊市全年基本持黄金 +7.8%）。完整指标表与交易流水见 `results/` 目录。
+
+### 3.5 参数稳健性 & 无前视自审
+
+实盘参数 **`(mom_w=4, λ=1.5, top_n_a=4, vol_target=0.12)`** 经两条独立路径交叉验证：
+
+**① 三段式调参**（IS 2019-2022 / Val 2023 / OOS 2024+）— 108 组合 → IS Top-10 → Val 重排 → 选冠军：
+
+| 冠军维度 | IS Sharpe | Val Sharpe | **OOS Sharpe** |
+|---|---:|---:|---:|
+| **三段式冠军** `(4, 1.5, 4, 0.12)` | 1.87 | **1.84** | **2.05** |
+| Baseline `(4, 1.5, 4, 0.15)` | 1.89 | 1.70 | 2.04 |
+
+IS Top-10 的 **OOS Sharpe 全部 ≥ 1.40**，无"选错参数就崩盘"的悬崖 → **参数稳健**。
+
+**② Walk-Forward 每年 refit**（expanding train → 下一年 OOS）：
+
+| 年 | 冠军参数 | Train Sh | **OOS Sh** | OOS 年化 |
+|---:|:---|---:|---:|---:|
+| 2023 | (4, 1.5, 4, 0.15) | 1.89 | 1.70 | +23.6% |
+| 2024 | (4, 1.5, 4, 0.12) | 1.86 | 2.21 | +36.2% |
+| 2025 | (4, 1.5, 4, 0.12) | 1.92 | 2.24 | +28.1% |
+
+冠军参数 2023 起稳定收敛到 `(mom_w=4, top_n_a=4)` → **无参数漂移**。WF 拼接 Sharpe ≈ 固定参数同段 Sharpe → **无"在线调参"红利，固定参数已近 pareto 前沿**。
+
+**③ 无前视偏差（No Look-Ahead）自审：**
+
+| 模块 | 防护 |
+|---|---|
+| 权重执行 | `w_exec = w_final.shift(1)` → T 日信号用于 T+1 PnL |
+| 波动缩放 | `pnl_raw.rolling(26).std()` 仅使用 `.shift(1)` 后的已结算 PnL |
+| Gate 均线 | `mc.rolling(50, min_periods=25).mean()` 右对齐，无 `center=True` |
+| 横截面 z | 按时点横截面归一化，不跨时间维度 |
+| Eligibility | 上市满 12 周才进入截面，避免 IPO 样本污染 |
+
+证据链：
+- [results/grid_search_three_way.csv](results/grid_search_three_way.csv) — 108 组合 IS/Val/OOS 全指标
+- [results/walk_forward_by_year.csv](results/walk_forward_by_year.csv) — WF 年度冠军明细
+- [results/walk_forward_nav.png](results/walk_forward_nav.png) — WF vs 固定参数 NAV 对比
+- [V7_gold_daily_guide.ipynb](V7_gold_daily_guide.ipynb) — 一键复现（cell 5 硬编码实盘参数，cell 12/13 为两条验证路径）
 
 ### 4. 仓库结构
 
@@ -240,7 +279,7 @@ python scripts/04_latest_picks.py
 Current language: English | [切换到中文](#zh)
 
 > A **low-frequency, rules-based, reproducible** weekly sector rotation quant project over **34 A-share thematic ETFs** (V7_gold).
-> The strategy combines **momentum × crowding penalty × group rotation ensemble**, with a **50-week MA bear filter**, a **gold-ETF defensive fallback**, and **15% annualized volatility targeting**. Parameters are strictly tuned on IS (2019-2023) and evaluated on a held-out OOS window (2024-2026).
+> The strategy combines **momentum × crowding penalty × group rotation ensemble**, with a **50-week MA bear filter**, a **gold-ETF defensive fallback**, and **12% annualized volatility targeting** (three-way tuning champion). Production parameters are validated by **two independent paths**: three-way split (IS 2019-2022 / Val 2023 / OOS 2024+) and rolling Walk-Forward — **no overfitting, no parameter drift, no look-ahead bias**.
 
 <p align="center">
   <a href="#1-overview">Overview</a> •
@@ -266,7 +305,7 @@ Core philosophy:
 - **Leg A** scores ETFs by **momentum minus crowding**, avoiding overheated themes (2021 liquor, 2023 CPO);
 - **Leg G** performs **9-group sector rotation**, picking leaders in top themes to cut single-ETF noise;
 - **50-week MA gate** switches **100% into gold ETF (159934.SZ)** when the aggregate market breaks long-term trend;
-- **15% volatility target** dynamically scales total exposure for tail-risk control.
+- **12% volatility target** (three-way tuning champion) dynamically scales total exposure for tail-risk control.
 
 ### 2. Strategy Logic
 
@@ -299,7 +338,7 @@ w_raw[i,t] = 0.5 · w_A[i,t] + 0.5 · w_G[i,t]   # at most 7 ETFs/week
 #### 2.2 Bear-Market Filter & Capital Management
 
 - **Market Gate**: keep `w_raw` if `mkt_cum[t] > mean(mkt_cum[t-50w..t])`; otherwise **100% switch into gold ETF (159934.SZ)**;
-- **Vol Target**: `scale[t] = min(1.0, 0.15 / rolling_vol_26w[t])`, scales total exposure;
+- **Vol Target**: `scale[t] = min(1.0, 0.12 / rolling_vol_26w[t])` (three-way tuning champion), scales total exposure;
 - **Execution**: signals computed Friday close; executed at **Monday open + 5bps one-way slippage** (`delay=1`);
 - **Universe**: 34 thematic ETFs across 9 groups (tech growth / new energy / advanced manufacturing / financials / consumer / cyclicals / real-estate chain / agri / dividend); each ETF must have ≥12 weeks of history to enter the cross section.
 

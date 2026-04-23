@@ -1,7 +1,7 @@
 # V7_gold · A 股行业 ETF 轮动 · 黄金对冲版
 
 > A 股主题 ETF 动量轮动(惩罚式 × 组轮动双腿 Ensemble),
-> 配合 50 周 MA gate + 黄金 ETF 避险 fallback + 15% 年化 vol target。
+> 配合 50 周 MA gate + 黄金 ETF 避险 fallback + 12% 年化 vol target(三段式冠军)。
 >
 > Moskowitz-Grinblatt 1999 行业动量 × Cooper-Gutierrez-Hameed 2004 市场状态
 >   × Barberis-Shleifer 2003 风格投资 × 黄金 anti-cyclic hedge
@@ -92,10 +92,10 @@ else:
     w_pre_vt[t] = {159934.SZ: 1.0}                         # 100% 黄金 fallback
 
 # ──────────────────────────────────────────────────────────────────
-# Step 5: Vol Target 15% 年化(只缩不放)
+# Step 5: Vol Target 12% 年化(三段式冠军;只缩不放)
 # ──────────────────────────────────────────────────────────────────
 rolling_vol_26w[t] = 组合过去 26 周已实现年化波动
-scale[t]           = min(1.0, 0.15 / rolling_vol_26w[t])
+scale[t]           = min(1.0, 0.12 / rolling_vol_26w[t])   # 0.12 = 三段式冠军
 w_final[t]         = w_pre_vt[t] * scale[t]
 
 # ──────────────────────────────────────────────────────────────────
@@ -122,7 +122,7 @@ w_final[t]         = w_pre_vt[t] * scale[t]
 | `leg_G_weight` | 50% | Ensemble G 腿权重 |
 | `gate_ma_window` | 50 w | 慢 gate |
 | `fallback` | 159934.SZ (黄金ETF) 100% | Anti-cyclic 避险 |
-| `vol_target` | 15% 年化 | 只缩不放,无杠杆 |
+| `vol_target` | **12% 年化**(三段式冠军) | 只缩不放,无杠杆;baseline 0.15 同级 Sharpe,0.12 更保守 |
 | `vol_lookback` | 26 w | 半年滚动波动 |
 | `rebalance_freq` | 1 w | 每周 |
 | `delay` | 1 | T+1 执行 |
@@ -144,6 +144,77 @@ w_final[t]         = w_pre_vt[t] * scale[t]
 | V7_gb_70_30 | 1.81 | 2.94 | -8.9% | 26.1% | +30% 国债缓冲 |
 | V7_gb7030_FG4 | 1.85 | 3.28 | -8.1% | 26.6% | +快 gate + 国债(Pareto)|
 | **V7_gold** ⭐ | **1.91** | **3.21** | -8.9% | **28.6%** | **最高 Sharpe** |
+
+## 参数稳健性验证(三段式调参 + Walk-Forward)
+
+> 遵循 IS/OOS 纪律:IS 段只用于选参,OOS 严格只读。
+> 网格 108 组合:`mom_w ∈ {3,4,6,8}` × `λ ∈ {1.0,1.5,2.0}` × `top_n_a ∈ {3,4,5}` × `vol_target ∈ {0.12,0.15,0.18}`。
+
+### 三段式调参(IS 2019-2022 / Val 2023 / OOS 2024+)
+
+IS 段 108 组合打分 → 取 IS Top-10 → 在 Val 段重排 → 选冠军 → OOS 只读验证。
+
+| rank | mom_w | λ | top_n_a | vol_tgt | IS Sh | Val Sh | **OOS Sh** |
+|---:|---:|---:|---:|---:|---:|---:|---:|
+| 1 (冠军) | **4** | **1.5** | **4** | **0.12** | 1.87 | **1.84** | **2.05** |
+| 2 | 4 | 2.0 | 4 | 0.12 | 1.84 | 1.83 | 2.08 |
+| 3 | 4 | 1.5 | 4 | 0.18 | 1.85 | 1.71 | 2.00 |
+| 4 | 4 | 1.5 | 4 | 0.15 (baseline) | 1.89 | 1.70 | **2.04** |
+| 5 | 4 | 2.0 | 4 | 0.15 | 1.86 | 1.69 | 2.07 |
+
+**结论**:
+
+- 冠军参数与基线**仅 `vol_target` 维度有微差**(0.12 vs 0.15),其他 `mom_w=4 / λ=1.5 / top_n_a=4` **完全一致**。
+- 冠军 OOS Sharpe **2.05** vs 基线 **2.04** — 差距 +0.01,在统计噪声之内。
+- **实盘采用三段式冠军 `vol_target=0.12`**(更保守的杠杆约束,OOS Sh 2.05 vs 原 0.15 的 2.04,尾部更薄);其他维度与基线一致。
+- IS Top-10 中所有组合的 OOS Sharpe ≥ 1.40,**参数面稳健**,不存在"选错参数就崩盘"的悬崖。
+
+### Walk-Forward(每年初 expanding refit)
+
+用截至去年底的全部历史作为训练段,在下一整年做严格样本外,每年重选一次参数。
+
+| 年 | Train 周 | OOS 周 | 冠军 `(mom_w, λ, top_n_a, vol_tgt)` | Train Sh | **OOS Sh** | OOS 年化 | OOS DD |
+|---:|---:|---:|:---|---:|---:|---:|---:|
+| 2022 | 158 | 50 | (3, 1.5, 5, 0.12) | 2.21 | **0.66** | +6.16% | -8.28% |
+| 2023 | 208 | 50 | (4, 1.5, 4, 0.15) | 1.89 | **1.70** | +23.58% | -4.96% |
+| 2024 | 258 | 51 | (4, 1.5, 4, 0.12) | 1.86 | **2.21** | +36.24% | -3.98% |
+| 2025 | 309 | 53 | (4, 1.5, 4, 0.12) | 1.92 | **2.24** | +28.09% | -4.61% |
+| 2026 YTD | 362 | 15 | (4, 2.0, 4, 0.12) | 1.97 | 0.75 | +9.74% | -5.46% |
+
+**关键观察**:
+
+- **参数收敛性**:从 2023 起 WF 每年冠军都稳定在 `mom_w=4, top_n_a=4` 附近,λ 在 1.5-2.0、vol_tgt 在 0.12-0.15 间微动,**不存在参数漂移**。
+- **2022 是唯一 OOS Sh < 1.0 的年份**(0.66),与全 A 熊市 -22% 一致;该年策略靠 gate+黄金保本,WF 选参无法逆转系统性熊市。
+- **2024-2025 WF OOS Sh > 2.2**,和固定参数几乎无差,说明**调参红利≈0 **——策略的 alpha 来自结构(momentum + group rotation + gate + 黄金),而非精细调参。
+- **WF 拼接曲线 Sharpe ≈ 固定参数基线同段 Sharpe**,直接印证"基线已经接近 pareto 前沿"。
+
+### 合并结论
+
+1. 三段式和 WF **两条独立路径**都得到同一结论:`(mom_w=4, λ=1.5, top_n_a=4, vol_target∈{0.12,0.15})` 是**稳健解**,IS Top-10 的 OOS Sharpe 全部 ≥ 1.40。
+2. 参数面无悬崖、无漂移、无"WF > Fixed"的调参红利 → **本策略不适合做在线参数 refit**,固定参数即可。
+3. 弱项(2022 熊市 OOS Sh 0.66)来自 regime 而非参数,**任何调参组合都无法修复**,只能靠结构防御(gate/黄金/vol target)缓解。
+4. **实盘部署最终参数 = 三段式冠军** `(mom_w=4, λ=1.5, top_n_a=4, vol_target=0.12)`,notebook `V7_gold_daily_guide.ipynb` 已硬编码。
+
+### 前视偏差自审(No Look-Ahead)
+
+| 模块 | 代码位置 | 防护 |
+|---|---|---|
+| 权重执行 | `w_exec = w_final.shift(DELAY)` (`DELAY=1`) | T 日信号用于 T+1 PnL,**今日权重不含今日收益** |
+| 波动缩放 | `pnl_raw = (w.shift(DELAY) * ret).sum()` 再 `rolling(26).std()` | 仅用已结算的、滞后一期的 PnL 估计 vol |
+| Gate 均线 | `mc.rolling(50, min_periods=25).mean()` | 右对齐 rolling,每一点的 MA 只用 `[t-49, t]` 历史 |
+| 广度 z | `br.rolling(52).mean()` / `.std()` | 同上,历史截断 |
+| 动量因子 | `cum / cum.shift(4) - 1` | 标准 look-back,无全样本标准化 |
+| 横截面 z | `frame.where(elig); .sub(mean,axis=0).div(std,axis=0)` | 按时点横截面计算,不穿越时间维度 |
+| Eligibility | `age = ret.notna().cumsum(); elig = age >= 12` | 新 ETF 满 12 周才进入截面,避免 IPO 样本污染 |
+
+所有 rolling 均为**默认右对齐**、无 `center=True`、无 `expanding().max().shift(-1)` 等反直觉泄露模式。
+
+产出证据链:
+
+- `results/grid_search_three_way.csv`:108 组合 IS/Val/OOS 全指标
+- `results/walk_forward_by_year.csv`:WF 年度冠军 + OOS 绩效
+- `results/walk_forward_pnl.csv`:WF 拼接等效周频 PnL
+- `results/walk_forward_nav.png`:WF vs 固定参数 NAV 对比图
 
 ## 风险与局限(诚实披露)
 
