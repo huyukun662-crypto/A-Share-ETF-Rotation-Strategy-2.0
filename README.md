@@ -18,14 +18,14 @@
 
 当前语言：中文 | [Switch to English](#en)
 
-> 这是一个面向 **A 股全市场 34 只主题行业 ETF** 的**低频、规则化、可复现**的周度板块轮动量化项目（**V7_gold** 版本）。
+> 这是一个面向 **A 股全市场 35 只主题行业 ETF** 的**低频、规则化、可复现**的周度板块轮动量化项目（**V7_gold** 版本）。
 > 策略基于 **动量 × 拥挤惩罚 × 组轮动 Ensemble**，叠加 **50 周 MA 熊市滤波** 与 **黄金 ETF 避险 fallback**，并用 **12% 年化波动目标**（三段式调参冠军）做杠杆约束。实盘参数经 **三段式（IS 2019-2022 / Val 2023 / OOS 2024+）** 与 **Walk-Forward（每年滚动 refit）** 两条独立路径验证：**无过拟合、无参数漂移、无前视偏差**。
 
 ![V7_gold NAV vs CSI 300 · Excess NAV · Drawdown (Full 2019-2026)](figures/nav_vs_benchmark.png)
 
-> **全样本（Full: 2019-01-04 → 2026-04-22, 377 周）**：Sharpe **1.92** · 年化 **28.8%** · 最大回撤 **-8.89%** · Calmar **3.21**。
-> **样本外（OOS: 2024–2026）**：Sharpe **2.04** · 年化 **34.16%** · 最大回撤 **-7.59%** · Calmar **4.50**。
-> **vs 沪深300 Benchmark**：超额年化 **+18.2%** · 超额 Sharpe **1.54** · 策略 MaxDD **-8.89%** vs 沪深300 **-45.05%**。
+> **全样本（Full: 2019-01-04 → 2026-04-23, 377 周）**：Sharpe **1.91** · 年化 **24.67%** · 最大回撤 **-8.18%** · Calmar **3.01**。
+> **样本外（OOS: 2024–2026）**：Sharpe **2.03** · 年化 **29.07%** · 最大回撤 **-6.09%** · Calmar **4.77**。
+> **vs 沪深300 Benchmark**：超额年化 **+14.6%** · 超额 Sharpe **0.85** · 策略 MaxDD **-8.18%** vs 沪深300 **-45.60%**。
 
 ### 1. 项目概览
 
@@ -73,7 +73,7 @@ w_raw[i,t] = 0.5 · w_A[i,t] + 0.5 · w_G[i,t]     # 每周最多 7 只 ETF
 - **Market Gate**：`mkt_cum[t] > mean(mkt_cum[t-50w..t])` 时保留 `w_raw`；否则 **100% 切换至黄金 ETF（159934.SZ）**；
 - **Vol Target**：`scale[t] = min(1.0, 0.12 / rolling_vol_26w[t])`（三段式冠军），对总暴露做动态杠杆约束；
 - **执行**：周五收盘计算信号，**下周一开盘价 + 单边 5bps 滑点** 执行调仓（`delay=1`）；
-- **Universe**：34 只主题 ETF，按 9 组（科技成长 / 新能源 / 高端制造 / 大金融 / 大消费 / 周期资源 / 地产链 / 农业 / 红利）分类；每只 ETF 需上市满 **12 周** 才进入截面。
+- **Universe**：**35 只**主题 ETF（原 34 + 科创芯片ETF 589100.SH），按 9 组（科技成长 / 新能源 / 高端制造 / 大金融 / 大消费 / 周期资源 / 地产链 / 农业 / 红利）分类；每只 ETF 需上市满 **12 周** 才进入截面。
 
 ### 3. 回测结果
 
@@ -85,30 +85,31 @@ w_raw[i,t] = 0.5 · w_A[i,t] + 0.5 · w_G[i,t]     # 每周最多 7 只 ETF
 
 | 核心指标 | IS（2019–2023） | **OOS（2024–2026）** | **全样本（2019–2026.4）** |
 | --- | ---: | ---: | ---: |
-| **年化收益** | 26.07% | **34.16%** | **28.57%** |
-| **Sharpe 比率** | 1.86 | **2.04** | **1.92** |
-| **Sortino 比率** | 2.98 | 4.02 | 3.31 |
-| **Calmar 比率** | 2.93 | 4.50 | 3.21 |
-| **最大回撤** | -8.89% | -7.59% | **-8.89%** |
+| **年化收益** | 22.69% | **29.07%** | **24.67%** |
+| **Sharpe 比率** | 1.86 | **2.03** | **1.91** |
+| **Sortino 比率** | 3.06 | 4.28 | 3.43 |
+| **Calmar 比率** | 2.77 | 4.77 | 3.01 |
+| **最大回撤** | -8.18% | -6.09% | **-8.18%** |
 | **周胜率** | 60.9% | 59.7% | 60.5% |
 
 **vs 沪深 300 基准对比（Full 2019-2026）：**
 
 | | V7_gold | 沪深 300 | 超额（策略 − 基准） |
 | --- | ---: | ---: | ---: |
-| **年化收益** | **+28.8%** | +0.7% | **+18.2%** |
-| **Sharpe** | **1.92** | 0.37 | **1.54** |
-| **最大回撤** | **-8.89%** | -45.05% | — |
-| **2019→2026 累计净值** | **5.9×** | 1.05× | — |
+| **年化收益** | **+24.9%** | +6.6% | **+14.6%** |
+| **Sharpe** | **1.92** | 0.36 | **0.85** |
+| **最大回撤** | **-8.18%** | -45.60% | — |
+| **2019→2026 累计净值** | **4.93×** | 1.59× | — |
 
 **分年表现：**
 
 | 年份 | 2019 | 2020 | 2021 | 2022 | 2023 | 2024 | 2025 | 2026 YTD |
 | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
-| 年化收益 | +25.8% | +44.9% | +30.0% | +7.8% | +23.6% | +38.5% | +35.9% | +15.0% |
-| Sharpe | 2.28 | 2.56 | 1.85 | 0.81 | 1.70 | 2.11 | 2.30 | 0.91 |
+| 年化收益 | +25.1% | +35.2% | +23.7% | +6.8% | +23.8% | +36.2% | +28.7% | +8.5% |
+| Sharpe | 2.24 | 2.49 | 1.82 | 0.75 | 1.84 | 2.21 | 2.26 | 0.66 |
+| MaxDD | -5.59% | -7.14% | -4.92% | -8.18% | -4.09% | -3.98% | -4.37% | -5.23% |
 
-> 9 年里 **8 年 Sharpe ≥ 0.8**，唯一弱年是 2022（熊市全年基本持黄金 +7.8%）。完整指标表与交易流水见 `results/` 目录。
+> 8 年里 **7 年 Sharpe ≥ 0.8**，弱年是 2022（熊市主要持黄金 +6.8%）与 2026 YTD（仅 15 周样本）。完整指标表与交易流水见 `results/` 目录。
 
 ### 3.5 参数稳健性 & 无前视自审
 
@@ -118,20 +119,20 @@ w_raw[i,t] = 0.5 · w_A[i,t] + 0.5 · w_G[i,t]     # 每周最多 7 只 ETF
 
 | 冠军维度 | IS Sharpe | Val Sharpe | **OOS Sharpe** |
 |---|---:|---:|---:|
-| **三段式冠军** `(4, 1.5, 4, 0.12)` | 1.87 | **1.84** | **2.05** |
-| Baseline `(4, 1.5, 4, 0.15)` | 1.89 | 1.70 | 2.04 |
+| **三段式冠军** `(4, 1.5, 4, 0.12)` | 1.87 | **1.84** | **2.03** |
+| Baseline `(4, 1.5, 4, 0.15)` | 1.89 | 1.70 | 2.01 |
 
-IS Top-10 的 **OOS Sharpe 全部 ≥ 1.40**，无"选错参数就崩盘"的悬崖 → **参数稳健**。
+IS Top-10 的 **OOS Sharpe 前 5 名 ≥ 1.96，后 5 名 ≥ 1.34**，无"选错参数就崩盘"的悬崖 → **参数稳健**。
 
 **② Walk-Forward 每年 refit**（expanding train → 下一年 OOS）：
 
 | 年 | 冠军参数 | Train Sh | **OOS Sh** | OOS 年化 |
 |---:|:---|---:|---:|---:|
-| 2023 | (4, 1.5, 4, 0.15) | 1.89 | 1.70 | +23.6% |
-| 2024 | (4, 1.5, 4, 0.12) | 1.86 | 2.21 | +36.2% |
-| 2025 | (4, 1.5, 4, 0.12) | 1.92 | 2.24 | +28.1% |
+| 2023 | (4, 1.5, 4, 0.15) | 1.89 | 1.70 | +23.58% |
+| 2024 | (4, 1.5, 4, 0.12) | 1.86 | 2.21 | +36.24% |
+| 2025 | (4, 1.5, 4, 0.12) | 1.92 | 2.26 | +28.68% |
 
-冠军参数 2023 起稳定收敛到 `(mom_w=4, top_n_a=4)` → **无参数漂移**。WF 拼接 Sharpe ≈ 固定参数同段 Sharpe → **无"在线调参"红利，固定参数已近 pareto 前沿**。
+冠军参数 2023 起稳定收敛到 `(mom_w=4, top_n_a=4, vol_target=0.12)` → **无参数漂移**。WF 拼接 Sharpe ≈ 固定参数同段 Sharpe → **无"在线调参"红利，固定参数已近 pareto 前沿**。
 
 **③ 无前视偏差（No Look-Ahead）自审：**
 
@@ -172,7 +173,7 @@ A-Share-ETF-Rotation-Strategy-2.0/
 
 主入口为 `scripts/03_run_strategy.py`：
 
-1. `01_fetch_data.py`：由 Tushare 拉取 34 主题 ETF + 黄金 ETF 行情，自动缓存至 `data_cache/`；
+1. `01_fetch_data.py`：由 Tushare 拉取 **35** 主题 ETF（含黄金 ETF）行情，自动缓存至 `data_cache/`；
 2. `02_build_panel.py`：构造周频截面面板（mom / turn / breadth / group_mom 等因子）；
 3. `03_run_strategy.py`：执行 V7_gold 回测（Leg A + Leg G + Gate + Vol Target），输出全量指标与净值；
 4. `04_latest_picks.py`：基于最新一周数据，输出 **下周一应调至的目标持仓**（实盘清单）；
@@ -230,7 +231,7 @@ python scripts/04_latest_picks.py
 
 ### 8. 现有局限性
 
-- **2020 COVID 急跌无法完全规避**（-8.89%）：50 周 MA 慢 gate 对 4 周内的急跌反应偏慢；
+- **最大回撤发生在 2022 熊市**（-8.18%）：慢 gate 触发后靠黄金 fallback 兜底，但 2022 金价横盘，防御有限；2020 COVID 急跌 -7.14% 也无法完全规避（50 周 MA 慢 gate 对 4 周内急跌反应过慢）；
 - **OOS 高 Sharpe 包含黄金 β**：2024-2025 金价 +23% 贡献了可观部分，长期预期 Sharpe 更接近 **1.4–1.7**；
 - **Long-beta 增强而非 market-neutral**：牛市表现好，熊市靠三重防御（gate + 黄金 + vol target），但不做空；
 - **样本不含 2018 深熊**：2018 A 股 -25% 场景下策略表现未知；
@@ -278,7 +279,7 @@ python scripts/04_latest_picks.py
 
 Current language: English | [切换到中文](#zh)
 
-> A **low-frequency, rules-based, reproducible** weekly sector rotation quant project over **34 A-share thematic ETFs** (V7_gold).
+> A **low-frequency, rules-based, reproducible** weekly sector rotation quant project over **35 A-share thematic ETFs** (V7_gold).
 > The strategy combines **momentum × crowding penalty × group rotation ensemble**, with a **50-week MA bear filter**, a **gold-ETF defensive fallback**, and **12% annualized volatility targeting** (three-way tuning champion). Production parameters are validated by **two independent paths**: three-way split (IS 2019-2022 / Val 2023 / OOS 2024+) and rolling Walk-Forward — **no overfitting, no parameter drift, no look-ahead bias**.
 
 <p align="center">
@@ -290,9 +291,9 @@ Current language: English | [切换到中文](#zh)
 
 ![V7_gold NAV vs CSI 300 · Excess NAV · Drawdown (Full 2019-2026)](figures/nav_vs_benchmark.png)
 
-> **Full sample (2019-01-04 → 2026-04-22, 377 weeks)**: Sharpe **1.92** · Annualized **28.8%** · Max Drawdown **-8.89%** · Calmar **3.21**.
-> **OOS (2024–2026)**: Sharpe **2.04** · Annualized **34.16%** · Max Drawdown **-7.59%** · Calmar **4.50**.
-> **vs CSI 300 benchmark**: excess annualized **+18.2%** · excess Sharpe **1.54** · strategy MaxDD **-8.89%** vs CSI 300 **-45.05%**.
+> **Full sample (2019-01-04 → 2026-04-23, 377 weeks)**: Sharpe **1.91** · Annualized **24.67%** · Max Drawdown **-8.18%** · Calmar **3.01**.
+> **OOS (2024–2026)**: Sharpe **2.03** · Annualized **29.07%** · Max Drawdown **-6.09%** · Calmar **4.77**.
+> **vs CSI 300 benchmark**: excess annualized **+14.6%** · excess Sharpe **0.85** · strategy MaxDD **-8.18%** vs CSI 300 **-45.60%**.
 
 ### 1. Overview
 
@@ -340,7 +341,7 @@ w_raw[i,t] = 0.5 · w_A[i,t] + 0.5 · w_G[i,t]   # at most 7 ETFs/week
 - **Market Gate**: keep `w_raw` if `mkt_cum[t] > mean(mkt_cum[t-50w..t])`; otherwise **100% switch into gold ETF (159934.SZ)**;
 - **Vol Target**: `scale[t] = min(1.0, 0.12 / rolling_vol_26w[t])` (three-way tuning champion), scales total exposure;
 - **Execution**: signals computed Friday close; executed at **Monday open + 5bps one-way slippage** (`delay=1`);
-- **Universe**: 34 thematic ETFs across 9 groups (tech growth / new energy / advanced manufacturing / financials / consumer / cyclicals / real-estate chain / agri / dividend); each ETF must have ≥12 weeks of history to enter the cross section.
+- **Universe**: **35** thematic ETFs (original 34 + 科创芯片ETF 589100.SH) across 9 groups (tech growth / new energy / advanced manufacturing / financials / consumer / cyclicals / real-estate chain / agri / dividend); each ETF must have ≥12 weeks of history to enter the cross section.
 
 ### 3. Backtest Results
 
@@ -352,30 +353,30 @@ w_raw[i,t] = 0.5 · w_A[i,t] + 0.5 · w_G[i,t]   # at most 7 ETFs/week
 
 | Metric | IS (2019–2023) | **OOS (2024–2026)** | **Full (2019–2026.4)** |
 | --- | ---: | ---: | ---: |
-| **Annual Return** | 26.07% | **34.16%** | **28.57%** |
-| **Sharpe Ratio** | 1.86 | **2.04** | **1.92** |
-| **Sortino Ratio** | 2.98 | 4.02 | 3.31 |
-| **Calmar Ratio** | 2.93 | 4.50 | 3.21 |
-| **Max Drawdown** | -8.89% | -7.59% | **-8.89%** |
+| **Annual Return** | 22.69% | **29.07%** | **24.67%** |
+| **Sharpe Ratio** | 1.86 | **2.03** | **1.91** |
+| **Sortino Ratio** | 3.06 | 4.28 | 3.43 |
+| **Calmar Ratio** | 2.77 | 4.77 | 3.01 |
+| **Max Drawdown** | -8.18% | -6.09% | **-8.18%** |
 | **Weekly Hit Rate** | 60.9% | 59.7% | 60.5% |
 
 **vs CSI 300 benchmark (Full 2019-2026):**
 
 | | V7_gold | CSI 300 | Excess (Strategy − BM) |
 | --- | ---: | ---: | ---: |
-| **Annual Return** | **+28.8%** | +0.7% | **+18.2%** |
-| **Sharpe** | **1.92** | 0.37 | **1.54** |
-| **Max Drawdown** | **-8.89%** | -45.05% | — |
-| **2019→2026 cumulative NAV** | **5.9×** | 1.05× | — |
+| **Annual Return** | **+24.9%** | +6.6% | **+14.6%** |
+| **Sharpe** | **1.92** | 0.36 | **0.85** |
+| **Max Drawdown** | **-8.18%** | -45.60% | — |
+| **2019→2026 cumulative NAV** | **4.93×** | 1.59× | — |
 
 **Per-year performance:**
 
 | Year | 2019 | 2020 | 2021 | 2022 | 2023 | 2024 | 2025 | 2026 YTD |
 | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
-| Annual Return | +25.8% | +44.9% | +30.0% | +7.8% | +23.6% | +38.5% | +35.9% | +15.0% |
-| Sharpe | 2.28 | 2.56 | 1.85 | 0.81 | 1.70 | 2.11 | 2.30 | 0.91 |
+| Annual Return | +25.1% | +35.2% | +23.7% | +6.8% | +23.8% | +36.2% | +28.7% | +8.5% |
+| Sharpe | 2.24 | 2.49 | 1.82 | 0.75 | 1.84 | 2.21 | 2.26 | 0.66 |
 
-> Across 9 years, **8 years have Sharpe ≥ 0.8**; the only weak year is 2022 (mostly holding gold, +7.8%). See `results/` for full metric tables and trade logs.
+> Across 8 years, **7 years have Sharpe ≥ 0.8**; weak years are 2022 (mostly gold, +6.8%) and 2026 YTD (only 15 weeks). See `results/` for full metric tables and trade logs.
 
 ### 4. Repository Structure
 
@@ -400,7 +401,7 @@ Recommended reading path: `README.md` → `STRATEGY.md` → `scripts/` → `resu
 
 The main entry point is `scripts/03_run_strategy.py`:
 
-1. `01_fetch_data.py`: fetch 34 thematic ETFs + gold ETF via Tushare, auto-cached in `data_cache/`;
+1. `01_fetch_data.py`: fetch **35** thematic ETFs (incl. gold ETF) via Tushare, auto-cached in `data_cache/`;
 2. `02_build_panel.py`: build weekly cross-sectional panel (mom / turn / breadth / group_mom);
 3. `03_run_strategy.py`: run V7_gold backtest (Leg A + Leg G + Gate + Vol Target), output full metrics and NAV;
 4. `04_latest_picks.py`: given the latest week, print the **target portfolio to rebalance into next Monday**;
@@ -458,7 +459,7 @@ Prints the target holdings to rebalance into at the next Monday open, based on t
 
 ### 8. Current Limitations
 
-- **2020 COVID crash is not fully mitigated** (-8.89%): the 50-week MA gate is too slow for 4-week flash crashes;
+- **Max drawdown occurs in the 2022 bear market** (-8.18%): after the gate triggers, the gold fallback provides backstop, but gold was flat in 2022, limiting defense; 2020 COVID crash -7.14% is also not fully mitigated (50-week MA gate is too slow for 4-week flash crashes);
 - **OOS Sharpe includes gold β**: 2024-2025 gold +23% contributed materially; long-run expected Sharpe is closer to **1.4–1.7**;
 - **Long-beta enhancement, not market-neutral**: great in bull markets, defended in bear markets via triple guardrails (gate + gold + vol target), but never shorts;
 - **Sample does not include 2018 deep bear**: performance under a -25% A-share year is unknown;
