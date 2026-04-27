@@ -1,0 +1,82 @@
+{
+  "spec": "V22_regime_accel",
+  "sample": {
+    "start": "2019-01-04",
+    "end": "2026-04-23",
+    "n_weeks": 377
+  },
+  "params": {
+    "mom_w": 4,
+    "lam": 1.5,
+    "top_n_a": 4,
+    "vol_target": 0.12,
+    "top_k_groups": 3,
+    "per_group": 1,
+    "risk_adj_nu": 0.4,
+    "rev_w": 0.05,
+    "accel_w": 0.1,
+    "longmom_window": 13,
+    "regime_accel_signal": "hs300_acc",
+    "regime_accel_theta_on": 0.05,
+    "regime_accel_theta_off": 0.0,
+    "regime_accel_k_min": 8,
+    "regime_accel_short_w": 4,
+    "regime_accel_long_w": 13
+  },
+  "design_intent": "V17_alt + Regime-Conditional accel: 仅在 HS300 加速行情时启用动量加速度因子",
+  "public_credit": {
+    "engine": "V7_gold cell 10",
+    "risk_adj_mom": "myinvestpilot",
+    "short_term_reversal": "Jegadeesh 1990",
+    "momentum_acceleration": "Da-Gurun-Warachka 2014",
+    "regime_filter": "类比 Quantpedia trend filter 思路"
+  },
+  "regime_on_rate": 0.32360742705570295,
+  "regime_switch_count": 23,
+  "wf_v22_win_rate": "4/5",
+  "full": {
+    "n_weeks": 377,
+    "ann_ret": 0.2511945479975983,
+    "vol": 0.128501619660156,
+    "sharpe": 1.9547967462349836,
+    "sortino": 3.5208650745209935,
+    "max_dd": -0.08159095486463674,
+    "calmar": 3.0787058248594095,
+    "win_rate": 0.6074270557029178
+  },
+  "is": {
+    "n_weeks": 208,
+    "ann_ret": 0.23031080712488028,
+    "vol": 0.12024742442460512,
+    "sharpe": 1.9153076103454063,
+    "sortino": 3.218540120907395,
+    "max_dd": -0.08159095486463674,
+    "calmar": 2.8227492558087697,
+    "win_rate": 0.6009615384615384
+  },
+  "val": {
+    "n_weeks": 50,
+    "ann_ret": 0.2298494724742688,
+    "vol": 0.1300656069449644,
+    "sharpe": 1.7671810240467847,
+    "sortino": 2.697500760334709,
+    "max_dd": -0.044795989852592366,
+    "calmar": 5.131027871705067,
+    "win_rate": 0.64
+  },
+  "oos": {
+    "n_weeks": 119,
+    "ann_ret": 0.2979018789791643,
+    "vol": 0.14207176722945483,
+    "sharpe": 2.0968408065061515,
+    "sortino": 4.462096705003194,
+    "max_dd": -0.059982720311288484,
+    "calmar": 4.966461631502573,
+    "win_rate": 0.6050420168067226
+  },
+  "gate_on_rate": 0.6047745358090185,
+  "mode_now": "RISK-ON",
+  "regime_accel_now": false,
+  "scale_now": 0.45775778009524143,
+  "v22_8d_pass_v7": true
+}

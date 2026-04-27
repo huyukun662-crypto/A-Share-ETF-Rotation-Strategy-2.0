@@ -1,0 +1,23 @@
+{
+  "label": "V25 final: V7-35 + V24-12板块 + topk=4 + csi_all_acc",
+  "Full_sharpe": 2.0017636233153024,
+  "Full_ann": 0.25825972910190753,
+  "Full_mdd": -0.08234982556033399,
+  "Full_calmar": 3.136129643804677,
+  "OOS_sharpe": 2.188720694315491,
+  "OOS_ann": 0.31497273471520537,
+  "OOS_mdd": -0.05487239694349355,
+  "OOS_calmar": 5.7400943326670735,
+  "IS_sharpe": 1.983632341260403,
+  "IS_ann": 0.23556872382778482,
+  "IS_mdd": -0.08234982556033399,
+  "IS_calmar": 2.8605855838175915,
+  "regime_signal": "csi_all_acc (000985.CSI)",
+  "regime_on_pct": 0.33421750663129973,
+  "n_switch": 24,
+  "wf_method": "3y rolling",
+  "wf_pass": 3,
+  "wf_total": 5,
+  "beats_V7": false,
+  "beats_V22": false
+}
